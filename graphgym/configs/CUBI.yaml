@@ -1,0 +1,109 @@
+out_dir: results
+custom_metrics: ['edge_classification']
+dataset:
+  format: PyG
+  name: CUBICASA_Merge_DUALIMG_1
+  task: node
+  task_type: semantic_segmentation
+  dir: /home/ybc2021/Datasets/CUBI_3
+  node_encoder: true
+  node_encoder_name: merge_node_resnet_1
+  node_encoder_bn: false
+
+  edge_encoder: false
+  edge_encoder_name: sin_pos_t_edge_2
+  edge_encoder_bn: true
+
+  category: [
+      0.249, 1.104, 0.054, 1.221, 1.092, 0.922, 1.223, 0.754,
+      0.881, 2.151, 9.821, 0.407
+  ]
+  augmentation: true
+
+train:
+  batch_size: 8
+  eval_period: 2
+  ckpt_period: 50
+  sampler: full_batch
+
+  auto_resume: false
+  epoch_resume: -1
+
+val:
+  batch_size: 1
+  extra_infos: false
+
+share:
+  dim_edge: 2
+  dim_node: 4
+  aux_dim_node: 1
+  aux_dim_edge: 2
+  dim_pos: 128
+
+  aux_dim_out: 1
+  imgEncoder_dim_out: 2048
+
+model:
+  type: CUBICASA_DUAL
+
+  loss_fun: focal_loss
+  has_aux: true
+  aux_loss_fun: cross_entropy
+  aux_weight: 1
+
+  edge_decoding: dot
+  graph_pooling: add
+  loss_regularization: false
+gnn:
+  layers_pre_mp: 1
+  layers_mp: 6
+  layers_post_mp: 1
+  imgEncoder: resnet50  # seed 1 -- seed 3
+
+  dim_inner: 256
+  layer_type: NodeEdgeLayer
+  layer_pre_type: NodeLayer1
+  stage_type: dual_stack
+
+  head: node_edge_head
+  head_cfg:
+    norm: 'layer'
+
+  batchnorm: false
+  act: prelu
+  agg: mean
+  normalize_adj: false
+  dropout: 0.
+
+  l2norm: false
+  has_act: false
+  has_final_act: false
+
+  pre_has_act: false
+  pre_has_final_act: false
+
+  layer_cfg:
+    intermediate_output: false
+    # node layer config
+    prefix_num: 7
+    node_layer_type: 'GATv3_PanAttn_0'
+    __node_heads: 16
+    __node_fill_value: 'eye'
+    __node_dropout: 0.1
+
+    edge_layer_type: 'GATv2+MLP'
+    __edge_heads: 4
+    __edge_edge_dim: 256
+    __edge_dropout: 0.1
+
+    nodestage: 'DeepGCN_Dual'
+    node2edge: 'naive replacement'
+    edgestage: 'DeepGCN_Dual'
+    edge2node: 'naive replacement'
+
+optim:
+  optimizer: sgd
+  base_lr: 0.01
+  max_epoch: 200
+
+device: cuda:0
