@@ -151,7 +151,6 @@ if __name__ == "__main__":
     """
     数据对应关系；
     完整版，基于wall_svg.png和XXX.txt；
-    筛选后，基于wall_svg_1.png和retain_XXX_1.txt；
 
     目标：由于wall_svg.png中存在房间内的划分，导致歧义，因此按照geometric primitive的
     剖分规整标签，并保存在其它文件夹中
