@@ -33,20 +33,25 @@ Download ResNet-101 from pytorch official site [here](https://download.pytorch.o
 
 
     python Replace_with_CubiCasa/roughcast_data_generation.py
+  
 - Render svg floorplan into image:
 
 
     python Replace_with_CubiCasa/ImgRasterization.py
+  
 - Render image annotation of floorplans:
 
 
     python Replace_with_CubiCasa/svg_loader.py
+  
 - Draw the wireframe of svg floorplan and turn the wireframe and image annotation into mmseg format:
 
 
     python DataPreparation/ImageProcessing_CubiCasa.py
+  
 - Process svg floorplan as pickle file:
     
 
-    python SvgProcessing_CubiCasa.py 
+    python SvgProcessing_CubiCasa.py
+  
 
