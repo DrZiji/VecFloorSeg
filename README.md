@@ -18,10 +18,10 @@ Download ResNet-101 from pytorch official site [here](https://download.pytorch.o
 
 ### Train 
 
-    python graphgym/train.py --cfg graphgym/configs/CUBI.yaml --seed 0
+    python graphgym/main.py --cfg graphgym/configs/CUBI.yaml --seed 0
 ### Eval
 
-    python graphgym/eval.py --cfg graphgym/configs/CUBI.yaml --eval train.epoch_resume 1 \
+    python graphgym/main.py --cfg graphgym/configs/CUBI.yaml --eval train.epoch_resume 1 \
                               train.ckpt_prefix best val.extra_infos True seed 0
 
 ### Optional: Processing svg format dataset from CubiCasa-5k source data
